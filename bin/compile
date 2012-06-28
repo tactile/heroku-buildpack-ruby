@@ -9,8 +9,8 @@ if pack = LanguagePack.detect(ARGV[0], ARGV[1])
   end
 end
 
-LIBWBXML_BINARY="https://s3.amazonaws.com/tact_vulcan/libwbxml-heroku.tgz"
-LIBWBXML_VENDOR="vendor/libwbxml"
+libwbxml_binary = "https://s3.amazonaws.com/tact_vulcan/libwbxml-heroku.tgz"
+libwbxml_vendor = "vendor/libwbxml"
 
-mkdir -p $1/$LIBWBXML_VENDOR
-curl $LIBWBXML_BINARY -o - | tar -xz -C $1/$LIBWBXML_VENDOR -f -
+system("mkdir -p #{ARGV[0]}/#{libwbxml_vendor}")
+system("curl #{libwbxml_binary} -o - | tar -xz -C #{ARGV[0]}/#{libwbxml_vendor} -f -")
