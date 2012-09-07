@@ -266,7 +266,7 @@ ERROR
        run("curl #{sqlite_binary} -s -o - | tar xzf -")
      end
 
-     run("gem install sqlite3 --no-ri --no-rdoc -- --with-sqlite3-dir=/app/vendor/sqlite")
+     run("bundle config build.sqlite3 --with-sqlite3-dir=/app/vendor/sqlite")
   end
 
   # default set of binaries to install
