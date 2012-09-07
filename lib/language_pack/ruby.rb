@@ -50,6 +50,7 @@ class LanguagePack::Ruby < LanguagePack::Base
     setup_language_pack_environment
     allow_git do
       install_language_pack_gems
+      install_sqlite3
       build_bundler
       create_database_yml
       install_binaries
@@ -252,6 +253,20 @@ ERROR
       end
       Dir["bin/*"].each {|path| run("chmod 755 #{path}") }
     end
+  end
+
+
+  def install_sqlite3
+     topic("Installing sqlite3")
+     sqlite_binary = "https://s3.amazonaws.com/tact_vulcan/sqlite3-heroku.tgz"
+
+     bin_dir = "vendor/sqlite"
+     FileUtils.mkdir_p bin_dir
+     Dir.chdir(bin_dir) do |dir|
+       run("curl #{sqlite_binary} -s -o - | tar xzf -")
+     end
+
+     run("gem install sqlite3 --no-ri --no-rdoc -- --with-sqlite3-dir=/app/vendor/sqlite")
   end
 
   # default set of binaries to install
