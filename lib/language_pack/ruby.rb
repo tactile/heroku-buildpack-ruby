@@ -266,6 +266,8 @@ ERROR
        run("curl #{sqlite_binary} -s -o - | tar xzf -")
      end
 
+     pipe('find #{bin_dir}')
+
      run("bundle config build.sqlite3 --with-sqlite3-dir=/app/vendor/sqlite --with-sqlite3-include=/app/vendor/sqlite/include --with-sqlite3-lib=/app/vendor/sqlite/lib")
   end
 
