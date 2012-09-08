@@ -50,6 +50,7 @@ class LanguagePack::Ruby < LanguagePack::Base
     setup_language_pack_environment
     allow_git do
       install_language_pack_gems
+      install_sqlite3
       build_bundler
       create_database_yml
       install_binaries
@@ -254,6 +255,20 @@ ERROR
     end
   end
 
+
+  def install_sqlite3
+     topic("Installing sqlite3")
+     sqlite_binary = "https://s3.amazonaws.com/tact_vulcan/sqlite3-heroku.tgz"
+
+     bin_dir = "vendor/sqlite"
+     FileUtils.mkdir_p bin_dir
+     Dir.chdir(bin_dir) do |dir|
+       run("curl #{sqlite_binary} -s -o - | tar xzf -")
+     end
+
+     run("bundle config build.sqlite3 --with-sqlite3-dir=/app/vendor/sqlite")
+  end
+
   # default set of binaries to install
   # @return [Array] resulting list
   def binaries
@@ -342,6 +357,7 @@ ERROR
         # we need to set BUNDLE_CONFIG and BUNDLE_GEMFILE for
         # codon since it uses bundler.
         env_vars       = "env BUNDLE_GEMFILE=#{pwd}/Gemfile BUNDLE_CONFIG=#{pwd}/.bundle/config CPATH=#{yaml_include}:$CPATH CPPATH=#{yaml_include}:$CPPATH LIBRARY_PATH=#{yaml_lib}:$LIBRARY_PATH RUBYOPT=\"#{syck_hack}\""
+        puts "bundle config: #{pipe("bundle config")}"
         puts "Running: #{bundle_command}"
         bundler_output << pipe("#{env_vars} #{bundle_command} --no-clean 2>&1")
 
