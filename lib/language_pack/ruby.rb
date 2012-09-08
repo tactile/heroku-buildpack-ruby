@@ -268,7 +268,7 @@ ERROR
 
      pipe('find #{bin_dir}')
 
-     run("bundle config build.sqlite3 --with-sqlite3-dir=`pwd`/vendor/sqlite --with-sqlite3-include=`pwd`/vendor/sqlite/include --with-sqlite3-lib=`pwd`/vendor/sqlite/lib")
+     run("bundle config build.sqlite3 --with-sqlite3-dir=vendor/sqlite --with-sqlite3-include=vendor/sqlite/include --with-sqlite3-lib=vendor/sqlite/lib")
   end
 
   # default set of binaries to install
