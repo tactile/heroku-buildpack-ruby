@@ -265,10 +265,6 @@ ERROR
      Dir.chdir(bin_dir) do |dir|
        run("curl #{sqlite_binary} -s -o - | tar xzf -")
      end
-
-     pipe('find #{bin_dir}')
-
-     run("bundle config build.sqlite3-ruby --with-sqlite3-dir=#{File.expand_path("vendor/sqlite")} --with-sqlite3-include=#{File.expand_path("vendor/sqlite/include")} --with-sqlite3-lib=#{File.expand_path("vendor/sqlite/lib")}")
   end
 
   # default set of binaries to install
@@ -359,7 +355,6 @@ ERROR
         # we need to set BUNDLE_CONFIG and BUNDLE_GEMFILE for
         # codon since it uses bundler.
         env_vars       = "env BUNDLE_GEMFILE=#{pwd}/Gemfile BUNDLE_CONFIG=#{pwd}/.bundle/config CPATH=#{yaml_include}:$CPATH:#{File.expand_path("vendor/sqlite/include")} CPPATH=#{yaml_include}:$CPPATH:#{File.expand_path("vendor/sqlite/include")} LIBRARY_PATH=#{yaml_lib}:#{File.expand_path("vendor/sqlite/lib")}:$LIBRARY_PATH RUBYOPT=\"#{syck_hack}\""
-        puts "bundle config: #{pipe("bundle config")}"
         puts "Running: #{bundle_command}"
         bundler_output << pipe("#{env_vars} #{bundle_command} --no-clean 2>&1")
 
